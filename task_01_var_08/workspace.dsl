@@ -71,18 +71,33 @@ workspace "Projex" "Система управления проектами"
             userService = container "User Service" "Управление пользователями, ролями, правами доступа, командами и оргструктурой" {
                 technology "Spring Boot 3, Java 17, Spring Security, REST API, gRPC, Redis"
                 tags "microservice"
+                properties {
+                    "api:createUser" "POST /users"
+                    "api:findByLogin" "GET /users?login={login}"
+                    "api:findByNameMask" "GET /users?nameMask={mask}"
+                }
             }
 
             # Сервис проектов с поддержкой иерархии
             projectService = container "Project Service" "Управление проектами, портфелями, программами, шаблонами проектов, метаданными" {
                 technology "Spring Boot 3, Java 17, REST API, gRPC, Elasticsearch"
                 tags "microservice"
+                properties {
+                    "api:createProject" "POST /projects"
+                    "api:findProjectByName" "GET /projects?name={name}"
+                    "api:findAllProjects" "GET /projects"
+                }
             }
 
             # Сервис задач с workflow
             taskService = container "Task Service" "Управление задачами, подзадачами, эпиками, багами, кастомными workflow, история изменений, time tracking" {
                 technology "Spring Boot 3, Java 17, REST API, gRPC, Camunda"
                 tags "microservice"
+                properties {
+                    "api:createTask" "POST /tasks"
+                    "api:getTasksByProject" "GET /projects/{projectId}/tasks"
+                    "api:getTaskByCode" "GET /tasks/{taskCode}"
+                }
             }
 
             # Сервис активности
